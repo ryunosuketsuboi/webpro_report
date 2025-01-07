@@ -15,7 +15,7 @@ document.querySelector('#post').addEventListener('click', () => {
 
     const params = {
         method: "POST",
-        body: 'name=' + encodeURIComponent(name) + '&message=' + encodeURIComponent(message),
+        body: 'action=post&name=' + encodeURIComponent(name) + '&message=' + encodeURIComponent(message),
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
@@ -47,7 +47,13 @@ document.querySelector('#search').addEventListener('input', (e) => {
 });
 
 function checkNewPosts() {
-    fetch("/check", { method: "POST", headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+    const params = {
+        method: "POST",
+        body: 'action=check',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    };
+
+    fetch("/check", params)
         .then(response => {
             if (!response.ok) throw new Error('Error');
             return response.json();
@@ -61,7 +67,7 @@ function checkNewPosts() {
 function fetchNewPosts() {
     const params = {
         method: "POST",
-        body: 'start=' + number,
+        body: 'action=read&start=' + number,
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     };
 
@@ -112,8 +118,8 @@ function editPost(id, mesArea) {
     if (!newMessage) return;
 
     const params = {
-        method: "PUT",
-        body: 'id=' + id + '&message=' + encodeURIComponent(newMessage),
+        method: "POST",
+        body: 'action=edit&id=' + id + '&message=' + encodeURIComponent(newMessage),
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     };
 
@@ -127,8 +133,8 @@ function editPost(id, mesArea) {
 
 function deletePost(id, cover) {
     const params = {
-        method: "DELETE",
-        body: 'id=' + id,
+        method: "POST",
+        body: 'action=delete&id=' + id,
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     };
 
